@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sop_couples', function (Blueprint $table) {
             $table->id();
             $table->foreignId('couple_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('sop_categories')->onDelete('cascade');
             $table->enum('status', ["Active", "Trial", "Archived"])->default("Active");
             $table->text('description')->nullable();
             $table->timestamps();
