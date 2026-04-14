@@ -56,7 +56,7 @@ More information regarding the project can be found here https://github.com/luqm
 
 ## Dependencies
 
-- [depedency-name](https://#) - Depedency Purposes
+- [Haruncpi/Laravel-id-Generator](https://github.com/haruncpi/laravel-id-generator) - For Generate Unix Id on Users
 
 ## Folders
 
