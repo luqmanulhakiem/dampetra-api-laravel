@@ -57,14 +57,14 @@ More information regarding the project can be found here https://github.com/luqm
 ## Dependencies
 
 - [Haruncpi/Laravel-id-Generator](https://github.com/haruncpi/laravel-id-generator) - For Generate Unix Id on Users
-- [Swagger](https://github.com/zircote/swagger-php) - For API Test & Documentation
+- [Swagger](https://github.com/darkaonline/l5-swagger) - For API Test & Documentation
 
 ## Folders
 
 - `app/Models` - Contains all the Models
-- `app/Http/Controllers/Api` - Contains all the api controllers
+- `app/Http/Controllers/API` - Contains all the api controllers
 - `app/Http/Middleware` - Contains the JWT auth middleware
-- `app/Http/Requests/Api` - Contains all the api form requests
+- `app/Http/Requests/API` - Contains all the api form requests
 - `config` - Contains all the application configuration files
 - `database/factories` - Contains the model factory for all the models
 - `database/migrations` - Contains all the database migrations
