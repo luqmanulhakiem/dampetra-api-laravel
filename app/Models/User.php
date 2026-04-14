@@ -38,4 +38,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(DailyEmotion::class);
     }
+
+    /** Get the period logs for the user.
+     * @return HasMany
+     */
+    public function periodLogs(): HasMany
+    {
+        return $this->hasMany(PeriodLog::class);
+    }
 }
