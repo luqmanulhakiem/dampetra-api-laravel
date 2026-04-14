@@ -12,6 +12,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller implements AuthDoc, HasMiddleware
 {
@@ -39,13 +40,24 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
     {
         $data = $request->validated();
 
-        return response()->json($data, 200);
-        //TODO: Implement login logic
+        $user = User::where("email", $data["email"])->first();
+
+        if (!$user || !Hash::check($data["password"], $user->password)) return response()->json(['message' => 'Invalid email or password'], 401);
+        if ($user->email_verified_at === null) return response()->json(['message' => 'Account not verified, please check your email to verify'], 403);
+        if (! $token = JWTAuth::attempt($data)) return response()->json(['error' => 'Unauthorized'], 401);
+
+        return response()->json([
+            "message" => "Login Successful",
+            "access_token" => $token,
+            "data" => [
+                "user" => new  UserResource($user),
+            ],
+        ], 200);
     }
 
     public function logout()
     {
-        Auth::logout();
+        JWTAuth::logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -57,7 +69,7 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
      */
     public function refresh()
     {
-        return $this->respondWithToken(Auth::refresh());
+        return $this->respondWithToken(JWTAuth::refresh());
     }
 
     /**
@@ -73,7 +85,7 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' =>
-            Auth::factory()->getTTL() * 60,
+            JWTAuth::factory()->getTTL() * 60,
         ]);
     }
 }
