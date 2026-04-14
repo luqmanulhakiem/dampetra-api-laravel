@@ -2,57 +2,34 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\API\Docs\AuthDoc;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use OpenApi\Attributes as OA;
+use App\Http\Requests\API\RegisterRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+class AuthController extends Controller implements AuthDoc
 {
-    #[OA\Post(
-        path: "/register",
-        summary: "Register a new user",
-        description: "Register a new user and returns the created user object",
-        tags: ["Authentication"],
-        requestBody: new OA\RequestBody(
-            required: true,
-            description: "User object that needs to be created",
-            content: new OA\JsonContent(
-                required: ["name", "email", "password"],
-                properties: [
-                    new OA\Property(property: "name", type: "string", example: "John Doe"),
-                    new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
-                    new OA\Property(property: "password", type: "string", format: "password", example: "secret123")
-                ]
-            )
-        ),
-        responses: [
-            new OA\Response(
-                response: 201,
-                description: "User registered successfully",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: "message", type: "string", example: "User created")
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 422,
-                description: "Validation error"
-            )
-        ]
-    )]
-    public function register(Request $request)
+
+    public function register(RegisterRequest $request)
     {
-        //TODO: Implement registration logic
+        $data = $request->validated();
+
+        $data["password"] = Hash::make($data["password"]);
+
+        $user = User::create($data);
+
+        return new UserResource($user);
     }
 
-    public function login(Request $request)
-    {
-        //TODO: Implement login logic
-    }
+    // public function login(Request $request)
+    // {
+    //     //TODO: Implement login logic
+    // }
 
-    public function logout(Request $request)
-    {
-        // TODO: Implement logout logic
-    }
+    // public function logout(Request $request)
+    // {
+    //     // TODO: Implement logout logic
+    // }
 }

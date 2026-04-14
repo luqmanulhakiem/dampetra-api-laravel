@@ -1,40 +1,44 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My Application API",
-        "description": "API documentation for My Application",
-        "contact": {
-            "name": "API Support",
-            "url": "https://example.com/support",
-            "email": "support@example.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "title": "Dampetra API",
+        "description": "API documentation for Dampetra Apps",
         "version": "1.0.0"
     },
-    "servers": [
-        {
-            "url": "http://localhost:8000",
-            "description": "Local development server"
-        },
-        {
-            "url": "https://api.example.com",
-            "description": "Production server"
-        }
-    ],
     "paths": {
-        "/register": {
+        "/api/v1": {
+            "get": {
+                "tags": [
+                    "App"
+                ],
+                "operationId": "1d520420aa96498f890d08a7dc8f34d7",
+                "responses": {
+                    "200": {
+                        "description": "API version 1",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "String"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Register a new user",
-                "description": "Register a new user and returns the created user object",
-                "operationId": "e66f8a7452e13b03ae4e77dbb42e435c",
+                "operationId": "0853d643d4752e34d40d6ef40deb24bb",
                 "requestBody": {
-                    "description": "User object that needs to be created",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -42,7 +46,8 @@
                                 "required": [
                                     "name",
                                     "email",
-                                    "password"
+                                    "password",
+                                    "gender"
                                 ],
                                 "properties": {
                                     "name": {
@@ -58,6 +63,14 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "secret123"
+                                    },
+                                    "gender": {
+                                        "type": "enum",
+                                        "example": "male",
+                                        "enum": [
+                                            "male",
+                                            "female"
+                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -66,15 +79,36 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "User registered successfully",
+                    "200": {
+                        "description": "User Registered Successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "User created"
+                                            "example": "User Registered Successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "gender": {
+                                                    "type": "string",
+                                                    "example": "male"
+                                                },
+                                                "unixId": {
+                                                    "type": "string",
+                                                    "example": "DTU-000001"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -83,13 +117,34 @@
                         }
                     },
                     "422": {
-                        "description": "Validation error"
+                        "description": "Error: Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email has already been taken."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": "{\"email\": [\"The email has already been taken.\"]}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     },
     "tags": [
+        {
+            "name": "App",
+            "description": "App"
+        },
         {
             "name": "Authentication",
             "description": "Authentication"
