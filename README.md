@@ -57,6 +57,7 @@ More information regarding the project can be found here https://github.com/luqm
 ## Dependencies
 
 - [Haruncpi/Laravel-id-Generator](https://github.com/haruncpi/laravel-id-generator) - For Generate Unix Id on Users
+- [Swagger](https://github.com/zircote/swagger-php) - For API Test & Documentation
 
 ## Folders
 
