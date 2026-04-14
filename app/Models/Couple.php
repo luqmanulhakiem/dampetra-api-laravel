@@ -14,4 +14,12 @@ class Couple extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /** Get the SOP Couples for the couple.
+     * @return HasMany
+     */
+    function sopCouples(): HasMany
+    {
+        return $this->hasMany(SopCouple::class);
+    }
 }
