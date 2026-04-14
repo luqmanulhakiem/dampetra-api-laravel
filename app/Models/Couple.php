@@ -22,4 +22,12 @@ class Couple extends Model
     {
         return $this->hasMany(SopCouple::class);
     }
+
+    /** Get the interactions for the couple.
+     * @return HasMany
+     */
+    function interactions(): HasMany
+    {
+        return $this->hasMany(Interaction::class);
+    }
 }
