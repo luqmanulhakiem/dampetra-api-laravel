@@ -36,6 +36,10 @@ Run the database migrations (**Set the database connection in .env before migrat
 
     php artisan migrate:fresh --seed
 
+Generate a new jwt key
+
+    php artisan jwt:secret
+
 Start the local development server
 
     php artisan serve
@@ -58,6 +62,7 @@ More information regarding the project can be found here https://github.com/luqm
 
 - [Haruncpi/Laravel-id-Generator](https://github.com/haruncpi/laravel-id-generator) - For Generate Unix Id on Users
 - [Swagger](https://github.com/darkaonline/l5-swagger) - For API Test & Documentation
+- [JWT - JSON Web Token](https://github.com/tymondesigns/jwt-auth?tab=readme-ov-file) - For Authentication Token
 
 ## Folders
 
