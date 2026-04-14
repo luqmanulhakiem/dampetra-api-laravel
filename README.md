@@ -1,58 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ![Dampetra API](https://laravel.com/img/logomark.min.svg) Dampetra API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> ### Dampetra is a robust backend solution designed for couple tracking applications. This API facilitates real-time data synchronization, secure activity logging, and seamless interaction management to help partners stay connected and maintain transparency in their digital relationship.
 
-## About Laravel
+This repo is under development!
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+----------
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Getting started
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+Please check the official laravel installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/13.x/installation)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Clone the repository
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    git clone git@github.com:luqmanulhakiem/dampetra-api-laravel.git
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Switch to the repo folder
 
-## Agentic Development
+    cd dampetra-api-laravel
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Install all the dependencies using composer
 
-```bash
-composer require laravel/boost --dev
+    composer install
 
-php artisan boost:install
-```
+Copy the example env file and make the required configuration changes in the .env file
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+    cp .env.example .env
 
-## Contributing
+Generate a new application key
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    php artisan key:generate
 
-## Code of Conduct
+Run the database migrations (**Set the database connection in .env before migrating**)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    php artisan migrate:fresh --seed
 
-## Security Vulnerabilities
+Start the local development server
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    php artisan serve
 
-## License
+You can now access the server at http://localhost:8000
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API Specification
+
+This application adheres to the api specifications set by the [Luqmanul Hakiem](https://github.com/luqmanulhakiem). This helps mix and match any backend with any other frontend without conflicts.
+
+> [Full API Spec](https://github.com/#) -- Under Develop
+
+More information regarding the project can be found here https://github.com/luqmanulhakiem/dampetra-api-laravel
+
+----------
+
+# Code overview
+
+## Dependencies
+
+- [depedency-name](https://#) - Depedency Purposes
+
+## Folders
+
+- `app` - Contains all the Eloquent models
+- `app/Http/Controllers/Api` - Contains all the api controllers
+- `app/Http/Middleware` - Contains the JWT auth middleware
+- `app/Http/Requests/Api` - Contains all the api form requests
+- `config` - Contains all the application configuration files
+- `database/factories` - Contains the model factory for all the models
+- `database/migrations` - Contains all the database migrations
+- `database/seeds` - Contains the database seeder
+- `routes` - Contains all the api routes defined in api.php file
+
+## Environment variables
+
+- `.env` - Environment variables can be set in this file
+
+***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
+
+----------
