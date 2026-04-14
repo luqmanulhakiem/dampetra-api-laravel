@@ -1,0 +1,1 @@
+Copyright (c) [2026] [Luqmanul Hakiem]. All rights reserved. No part of this software may be copied, distributed, or modified for personal or commercial use without explicit permission from the author.
