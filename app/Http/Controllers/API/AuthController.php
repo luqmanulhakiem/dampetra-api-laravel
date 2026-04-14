@@ -12,7 +12,6 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\Request;
 
 class AuthController extends Controller implements AuthDoc, HasMiddleware
 {
@@ -38,6 +37,9 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
 
     public function login(LoginRequest $request)
     {
+        $data = $request->validated();
+
+        return response()->json($data, 200);
         //TODO: Implement login logic
     }
 

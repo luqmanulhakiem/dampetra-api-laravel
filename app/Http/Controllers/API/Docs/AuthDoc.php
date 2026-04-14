@@ -66,9 +66,53 @@ interface AuthDoc
     )]
     public function register(RegisterRequest $request);
 
+    #[OA\Post(
+        path: "/api/v1/login",
+        tags: ["Authentication"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["email", "password"],
+                properties: [
+                    new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
+                    new OA\Property(property: "password", type: "string", format: "password", example: "secret123"),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "User Logged In Successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "User Logged In Successfully"),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: "Error: Unprocessable Content",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: "message",
+                            type: "string",
+                            example: "The email has already been taken."
+                        ),
+                        new OA\Property(
+                            property: "errors",
+                            type: "object",
+                            example: "{\"email\": [\"The email has already been taken.\"]}"
+                        ),
+                    ]
+                )
+            )
+        ]
+    )]
     public function login(LoginRequest $request);
 
     #[OA\Post(
+        security: [["bearerAuth" => []]],
         path: "/api/v1/logout",
         tags: ["Authentication"],
         responses: [
