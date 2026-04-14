@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Moment extends Model
 {
     protected $guarded = ['id'];
+
+    public function couple()
+    {
+        return $this->belongsTo(Couple::class);
+    }
 }

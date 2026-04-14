@@ -30,4 +30,12 @@ class Couple extends Model
     {
         return $this->hasMany(Interaction::class);
     }
+
+    /** Get the moments for the couple.
+     * @return HasMany
+     */
+    function moments(): HasMany
+    {
+        return $this->hasMany(Moment::class);
+    }
 }
