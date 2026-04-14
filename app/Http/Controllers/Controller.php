@@ -10,6 +10,13 @@ use OpenApi\Attributes as OA;
     title: "Dampetra API",
     description: "API documentation for Dampetra Apps",
 )]
+#[OA\SecurityScheme(
+    securityScheme: "bearerAuth",
+    type: "http",
+    description: "Enter JWT Bearer token",
+    scheme: "bearer",
+    bearerFormat: "JWT"
+)]
 
 abstract class Controller
 {

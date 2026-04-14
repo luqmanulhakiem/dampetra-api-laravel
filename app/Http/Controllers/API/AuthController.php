@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\Docs\AuthDoc;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\LoginRequest;
 use App\Http\Requests\API\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -35,7 +36,7 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
         return new UserResource($user);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         //TODO: Implement login logic
     }
@@ -45,7 +46,6 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
         Auth::logout();
 
         return response()->json(['message' => 'Successfully logged out']);
-        // TODO: Implement logout logic
     }
 
     /**

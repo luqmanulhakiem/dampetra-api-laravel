@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Docs;
 
+use App\Http\Requests\API\LoginRequest;
 use App\Http\Requests\API\RegisterRequest;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +66,7 @@ interface AuthDoc
     )]
     public function register(RegisterRequest $request);
 
-    public function login(Request $request);
+    public function login(LoginRequest $request);
 
     #[OA\Post(
         path: "/api/v1/logout",
@@ -80,24 +81,15 @@ interface AuthDoc
                     ]
                 )
             ),
-            // new OA\Response(
-            //     response: 422,
-            //     description: "Error: Unprocessable Content",
-            //     content: new OA\JsonContent(
-            //         properties: [
-            //             new OA\Property(
-            //                 property: "message",
-            //                 type: "string",
-            //                 example: "The email has already been taken."
-            //             ),
-            //             new OA\Property(
-            //                 property: "errors",
-            //                 type: "object",
-            //                 example: "{\"email\": [\"The email has already been taken.\"]}"
-            //             ),
-            //         ]
-            //     )
-            // )
+            new OA\Response(
+                response: 401,
+                description: "Error: Unauthorized",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Unauthenticated."),
+                    ]
+                )
+            ),
         ]
     )]
     public function logout();
