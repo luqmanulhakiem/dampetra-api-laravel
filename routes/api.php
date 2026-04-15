@@ -10,14 +10,20 @@ Route::prefix('v1')->group(function () {
      * Authentication Routes
      */
     Route::controller(AuthController::class)->group(function () {
-        Route::post("/register", 'register');
+        Route::post("/register", 'register')->middleware('throttle:3,1');
         Route::post("/login", 'login');
     });
 
-    Route::group(['middleware' => ['api', 'verified']], function () {
+    Route::group(['middleware' => ['api']], function () {
         // Auth Controller
         Route::controller(AuthController::class)->group(function () {
-            Route::post("/logout", 'logout');
+            // Route::get("/verify-email", 'verify');
+        });
+        Route::group(['middleware' => ['verified']], function () {
+            // Auth Controller
+            Route::controller(AuthController::class)->group(function () {
+                Route::post("/logout", 'logout');
+            });
         });
     });
 });

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->boolean('has_partner')->default(false);
+            $table->string('otp')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

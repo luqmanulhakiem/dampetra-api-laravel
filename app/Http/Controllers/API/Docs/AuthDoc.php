@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\Docs;
 use App\Http\Requests\API\LoginRequest;
 use App\Http\Requests\API\RegisterRequest;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\Request;
 
 interface AuthDoc
 {
