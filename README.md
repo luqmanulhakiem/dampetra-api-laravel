@@ -50,7 +50,7 @@ You can now access the server at http://localhost:8000
 
 This application adheres to the api specifications set by the [Luqmanul Hakiem](https://github.com/luqmanulhakiem). This helps mix and match any backend with any other frontend without conflicts.
 
-> [Full API Spec](https://github.com/#) -- Under Develop
+> [Full API Spec](https://github.com/luqmanulhakiem/dampetra-api-laravel/blob/main/storage/api-docs/api-docs.json) -- Api Docs JSON
 
 More information regarding the project can be found here https://github.com/luqmanulhakiem/dampetra-api-laravel
 
@@ -66,14 +66,16 @@ More information regarding the project can be found here https://github.com/luqm
 
 ## Folders
 
-- `app/Models` - Contains all the Models
 - `app/Http/Controllers/API` - Contains all the api controllers
-- `app/Http/Middleware` - Contains the JWT auth middleware
 - `app/Http/Requests/API` - Contains all the api form requests
+- `app/Http/Resources` - Contains all the response resources
+- `app/Mail` - Contains all the mail config
+- `app/Models` - Contains all the Models
 - `config` - Contains all the application configuration files
 - `database/factories` - Contains the model factory for all the models
 - `database/migrations` - Contains all the database migrations
 - `database/seeders` - Contains the database seeder
+- `resources/views/mail` - Contains the mail template
 - `routes` - Contains all the api routes defined in api.php file
 
 ## Environment variables
