@@ -43,8 +43,6 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
 
         $user = User::create($data);
 
-        $this->sendOtp($user);
-
         return response()->json(['data' => new UserResource($user)], 200);
     }
 
@@ -89,6 +87,9 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
         $user = User::where("email", $data["email"])->first();
 
         if (!$user || !Hash::check($data["password"], $user->password)) return response()->json(['message' => 'Invalid email or password'], 401);
+        if ($user->email_verified_at === null) {
+            $this->sendOtp($user);
+        };
         if (! $token = JWTAuth::attempt($data)) return response()->json(['error' => 'Unauthorized'], 401);
 
         return response()->json([
