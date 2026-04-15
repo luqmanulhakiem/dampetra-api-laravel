@@ -122,6 +122,23 @@ interface AuthDoc
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: "message", type: "string", example: "User Logged In Successfully"),
+                        new OA\Property(
+                            property: "data",
+                            type: "object",
+                            properties: [
+                                new OA\Property(property: "access_token", type: "string", example: "YOUR_JWT_TOKEN"),
+                                new OA\Property(
+                                    property: "user",
+                                    type: "object",
+                                    properties: [
+                                        new OA\Property(property: "name", type: "string", example: "John Doe"),
+                                        new OA\Property(property: "email", type: "string", example: "john@example.com")
+                                    ]
+                                ),
+                                new OA\Property(property: "is_verified", type: "boolean", example: "false"),
+
+                            ]
+                        )
                     ]
                 )
             ),

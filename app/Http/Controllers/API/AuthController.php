@@ -43,7 +43,10 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
 
         $user = User::create($data);
 
-        return response()->json(['data' => new UserResource($user)], 200);
+        return response()->json([
+            'message' => 'User Registered Successfully',
+            'data' => new UserResource($user)
+        ], 200);
     }
 
     /**

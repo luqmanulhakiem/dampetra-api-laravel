@@ -244,6 +244,32 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User Logged In Successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "access_token": {
+                                                    "type": "string",
+                                                    "example": "YOUR_JWT_TOKEN"
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john@example.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "is_verified": {
+                                                    "type": "boolean",
+                                                    "example": "false"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
