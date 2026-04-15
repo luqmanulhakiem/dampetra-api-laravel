@@ -66,6 +66,43 @@ interface AuthDoc
     public function register(RegisterRequest $request);
 
     #[OA\Post(
+        security: [["bearerAuth" => []]],
+        path: "/api/v1/resent-otp",
+        tags: ["Authentication"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "OTP resent successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "OTP resent successfully"),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: "Error: Unauthorized",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Unauthenticated."),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 429,
+                description: "Error: Too Many Requests",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Please wait before requesting a new code."),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function resentOtp();
+
+
+    #[OA\Post(
         path: "/api/v1/login",
         tags: ["Authentication"],
         requestBody: new OA\RequestBody(
@@ -88,24 +125,6 @@ interface AuthDoc
                     ]
                 )
             ),
-            new OA\Response(
-                response: 422,
-                description: "Error: Unprocessable Content",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: "message",
-                            type: "string",
-                            example: "The email has already been taken."
-                        ),
-                        new OA\Property(
-                            property: "errors",
-                            type: "object",
-                            example: "{\"email\": [\"The email has already been taken.\"]}"
-                        ),
-                    ]
-                )
-            )
         ]
     )]
     public function login(LoginRequest $request);

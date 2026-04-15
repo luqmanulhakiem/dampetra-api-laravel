@@ -63,14 +63,24 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
         Mail::to($user->email)->send(new SendOtpMail($otp, $user->name));
     }
 
-    public function verifyOtp(OtpRequest $request)
+    public function resentOtp()
     {
-        $data = $request->validated();
+        $user = Auth::user();
 
-        // $user = 
+        if ($user->email_verified_at !== null) {
+            return response()->json(['message' => 'Account already verified'], 400);
+        }
 
+        if ($user->otp_expires_at && now()->parse($user->otp_expires_at)->subMinutes(9)->isFuture()) {
+            return response()->json([
+                'message' => 'Please wait before requesting a new code.'
+            ], 429);
+        }
+
+        $this->sendOtp($user);
+
+        return response()->json(['message' => 'OTP resent successfully'], 200);
     }
-
 
 
     public function login(LoginRequest $request)
