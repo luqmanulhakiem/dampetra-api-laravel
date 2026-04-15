@@ -17,7 +17,8 @@ Route::prefix('v1')->group(function () {
     Route::group(['middleware' => ['api']], function () {
         // Auth Controller
         Route::controller(AuthController::class)->group(function () {
-            Route::post("/resent-otp", 'resentOtp')->middleware('throttle:1,1');
+            Route::post("/resent-otp", 'resentOtp')->middleware('throttle:3,1');
+            Route::post("/verify-otp", 'verifyOtp')->middleware('throttle:3,1');
         });
         Route::group(['middleware' => ['verified']], function () {
             // Auth Controller

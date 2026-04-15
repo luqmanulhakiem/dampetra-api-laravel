@@ -6,6 +6,7 @@ use App\Http\Controllers\API\Docs\AuthDoc;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\LoginRequest;
 use App\Http\Requests\API\OtpRequest;
+use App\Http\Requests\API\OtpVerifyRequest;
 use App\Http\Requests\API\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\SendOtpMail;
@@ -82,6 +83,41 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
         return response()->json(['message' => 'OTP resent successfully'], 200);
     }
 
+    public function verifyOtp(OtpVerifyRequest $request)
+    {
+        $data = $request->validated();
+
+        $user = Auth::user();
+
+        if ($user->email_verified_at !== null) {
+            return response()->json(['message' => 'Account already verified'], 400);
+        }
+
+        if ($data['otp'] != $user->otp) {
+            return response()->json(['message' => 'Invalid OTP. Please try again.'], 400);
+        }
+
+        if ($user->otp_expires_at && now()->parse($user->otp_expires_at)->isPast()) {
+            return response()->json(['message' => 'OTP has expired. Please request a new one.'], 400);
+        }
+
+
+        $findUser = User::where('email', $user->email)->first();
+
+        $findUser->email_verified_at = now();
+        $findUser->otp = null;
+        $findUser->otp_expires_at = null;
+        $findUser->save();
+
+        return response()->json([
+            "message" => "Otp Verified Successfully",
+            "data" => [
+                "user" => new  UserResource($user),
+                "is_verified" => $user->email_verified_at != null ? false : true,
+            ],
+        ], 200);
+    }
+
 
     public function login(LoginRequest $request)
     {
@@ -90,9 +126,9 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
         $user = User::where("email", $data["email"])->first();
 
         if (!$user || !Hash::check($data["password"], $user->password)) return response()->json(['message' => 'Invalid email or password'], 401);
-        if ($user->email_verified_at === null) {
-            $this->sendOtp($user);
-        };
+        // if ($user->email_verified_at === null) {
+        //     $this->sendOtp($user);
+        // };
         if (! $token = JWTAuth::attempt($data)) return response()->json(['error' => 'Unauthorized'], 401);
 
         return response()->json([

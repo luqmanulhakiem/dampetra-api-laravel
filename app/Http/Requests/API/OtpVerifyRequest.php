@@ -5,14 +5,14 @@ namespace App\Http\Requests\API;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OtpRequest extends FormRequest
+class OtpVerifyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class OtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "otp" => ["required", "digits:6"],
         ];
     }
 }
