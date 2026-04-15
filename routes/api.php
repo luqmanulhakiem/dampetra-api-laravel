@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\SopCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,10 @@ Route::prefix('v1')->group(function () {
             // Auth Controller
             Route::controller(AuthController::class)->group(function () {
                 Route::post("/logout", 'logout');
+            });
+            // Sop Category Controller
+            Route::controller(SopCategoryController::class)->group(function () {
+                Route::get("/sop-categories", "index");
             });
         });
     });

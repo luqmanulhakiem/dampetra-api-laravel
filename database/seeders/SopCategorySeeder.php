@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SopCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +22,7 @@ class SopCategorySeeder extends Seeder
             ["id" => 6, "name" => "BOUNDARIES"],
             ["id" => 7, "name" => "GROWTH"],
         ];
+
+        SopCategory::insert($sops);
     }
 }

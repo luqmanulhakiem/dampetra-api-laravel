@@ -408,6 +408,54 @@
                     }
                 ]
             }
+        },
+        "/api/v1/sop-categories": {
+            "get": {
+                "tags": [
+                    "Sop Categories"
+                ],
+                "description": "Get all sop categories",
+                "operationId": "5fe96b674dd724fea155ee5b4ed8fef1",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success get sop categories"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Communication"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -428,6 +476,10 @@
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Sop Categories",
+            "description": "Sop Categories"
         }
     ]
 }
