@@ -12,15 +12,22 @@ Route::prefix('v1')->group(function () {
      */
     Route::controller(AuthController::class)->group(function () {
         Route::post("/register", 'register')->middleware('throttle:3,1');
-        Route::post("/login", 'login');
+        Route::post("/login", 'login')->middleware('throttle:10,1');
     });
 
+    /**
+     * Protected Routes (Require Authentication and Email Verification)
+     * Note: The 'verified' middleware will ensure that only users with verified emails can access these routes.
+     * Make sure to apply the 'auth:api' middleware to the controllers to enforce authentication, and then use 'verified' middleware for email verification.
+     */
     Route::group(['middleware' => ['api']], function () {
-        // Auth Controller
+        // Unverified Auth Controller
         Route::controller(AuthController::class)->group(function () {
             Route::post("/resent-otp", 'resentOtp')->middleware('throttle:3,1');
             Route::post("/verify-otp", 'verifyOtp')->middleware('throttle:3,1');
         });
+
+        // Verified Controller
         Route::group(['middleware' => ['verified']], function () {
             // Auth Controller
             Route::controller(AuthController::class)->group(function () {
