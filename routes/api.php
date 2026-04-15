@@ -11,7 +11,7 @@ Route::prefix('v1')->group(function () {
      * Authentication Routes
      */
     Route::controller(AuthController::class)->group(function () {
-        Route::post("/register", 'register')->middleware('throttle:3,1');
+        Route::post("/register", 'register')->middleware('throttle:10,1');
         Route::post("/login", 'login')->middleware('throttle:10,1');
     });
 
@@ -28,7 +28,7 @@ Route::prefix('v1')->group(function () {
         });
 
         // Verified Controller
-        Route::group(['middleware' => ['verified']], function () {
+        Route::group(['middleware' => ['verified', 'throttle:500,1']], function () {
             // Auth Controller
             Route::controller(AuthController::class)->group(function () {
                 Route::post("/logout", 'logout');
