@@ -565,6 +565,63 @@
                     }
                 ]
             }
+        },
+        "/api/v1/users/me": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Get auth user information",
+                "operationId": "bfb19e32c66cf9a2f52ed6c6b3340c24",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success get data user"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john.doe@example.com"
+                                                },
+                                                "gender": {
+                                                    "type": "string",
+                                                    "example": "male"
+                                                },
+                                                "unixId": {
+                                                    "type": "string",
+                                                    "example": "DTU-000001"
+                                                },
+                                                "hasPartner": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -589,6 +646,10 @@
         {
             "name": "Sop Categories",
             "description": "Sop Categories"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\SopCategoryController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,8 @@ Route::prefix('v1')->group(function () {
             Route::controller(SopCategoryController::class)->group(function () {
                 Route::get("/sop-categories", "index");
             });
+            // Users
+            Route::get("/users/me", [UserController::class, 'index']);
         });
     });
 });
