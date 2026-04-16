@@ -13,6 +13,8 @@ Route::prefix('v1')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post("/register", 'register')->middleware('throttle:10,1');
         Route::post("/login", 'login')->middleware('throttle:10,1');
+        Route::post("/send-reset-password", 'sendResetPasswordCode')->middleware('throttle:10,1');
+        Route::post("/reset-password", 'resetPassword')->middleware('throttle:10,1');
     });
 
     /**

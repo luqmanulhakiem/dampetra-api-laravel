@@ -8,7 +8,11 @@ use App\Http\Requests\API\LoginRequest;
 use App\Http\Requests\API\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\API\OtpVerifyRequest;
+use App\Http\Requests\API\ResetPasswordRequest;
+use App\Http\Requests\API\NewPasswordRequest;
 use App\Mail\SendOtpMail;
+use App\Mail\SendResetPasswordMail;
+use App\Models\ForgotPasswordOtp;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -28,7 +32,7 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
     {
         return [
             // This applies 'auth:api' to everything EXCEPT 'login' and 'register'
-            new Middleware('auth:api', except: ['login', 'register', 'verify']),
+            new Middleware('auth:api', except: ['login', 'register', 'verify', 'sendResetPasswordCode', 'resetPassword']),
         ];
     }
 
@@ -142,6 +146,52 @@ class AuthController extends Controller implements AuthDoc, HasMiddleware
         JWTAuth::logout();
 
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function sendResetPasswordCode(ResetPasswordRequest $request)
+    {
+        $req = $request->validated();
+        $user = User::where('email', $req['email'])->first();
+        $otp = rand(100000, 999999);
+        $data = ForgotPasswordOtp::where('email', $user->email)->first();
+        if ($data) {
+            $data->otp = $otp;
+            $data->otp_expires_at = Carbon::now()->addMinutes(10);
+            $data->save();
+        } else {
+            ForgotPasswordOtp::create([
+                'email' => $user->email,
+                'otp' => $otp,
+                'otp_expires_at' => Carbon::now()->addMinutes(10),
+            ]);
+        }
+
+        Mail::to($user->email)->send(new SendResetPasswordMail($otp, $user->name));
+
+        return response()->json(['message' => 'Reset password code sent successfully'], 200);
+    }
+
+
+
+    public function resetPassword(NewPasswordRequest $request)
+    {
+        $req = $request->validated();
+        $user = User::where('email', $req['email'])->first();
+        $data = ForgotPasswordOtp::where('email', $user->email)->first();
+
+        if (request('otp') != $data->otp) {
+            return response()->json(['message' => 'Invalid OTP. Please try again.'], 400);
+        }
+
+        if (! $data || now()->parse($data->otp_expires_at)->isPast()) {
+            return response()->json(['message' => 'OTP has expired. Please request a new one.'], 400);
+        }
+
+        $user->password = Hash::make(request('password'));
+        $user->save();
+        $data->delete();
+
+        return response()->json(['message' => 'Password reset successfully'], 200);
     }
 
     /**

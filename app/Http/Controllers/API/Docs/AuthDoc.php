@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\Docs;
 use App\Http\Requests\API\LoginRequest;
 use App\Http\Requests\API\OtpVerifyRequest;
 use App\Http\Requests\API\RegisterRequest;
+use App\Http\Requests\API\ResetPasswordRequest;
+use App\Http\Requests\API\NewPasswordRequest;
 use OpenApi\Attributes as OA;
 
 interface AuthDoc
@@ -218,4 +220,61 @@ interface AuthDoc
         ]
     )]
     public function logout();
+
+
+    #[OA\Post(
+        path: "/api/v1/send-reset-password",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["email"],
+                properties: [
+                    new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
+                ]
+            )
+        ),
+        tags: ["Authentication"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Reset password code sent successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Reset password code sent successfully"),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function sendResetPasswordCode(ResetPasswordRequest $request);
+
+
+    #[OA\Post(
+        path: "/api/v1/reset-password",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["email", "token", "new_password", "new_password_confirmation"],
+                properties: [
+                    new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
+                    new OA\Property(property: "otp", type: "string", example: "123456"),
+                    new OA\Property(property: "password", type: "string", format: "password", example: "newsecret123"),
+                    new OA\Property(property: "password_confirmation", type: "string", format: "password", example: "newsecret123"),
+                ]
+            )
+        ),
+        tags: ["Authentication"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Reset password code sent successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Reset password code sent successfully"),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function resetPassword(NewPasswordRequest $request);
 }
