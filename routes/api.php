@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DailyEmotionController;
 use App\Http\Controllers\API\SopCategoryController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -42,6 +43,11 @@ Route::prefix('v1')->group(function () {
             });
             // Users
             Route::get("/users/me", [UserController::class, 'index']);
+
+            // Daily Emotion Controller
+            Route::controller(DailyEmotionController::class)->group(function () {
+                Route::post("/daily-emotion", "store");
+            });
         });
     });
 });

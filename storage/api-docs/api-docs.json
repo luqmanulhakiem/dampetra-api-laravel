@@ -518,6 +518,69 @@
                 }
             }
         },
+        "/api/v1/daily-emotion": {
+            "post": {
+                "tags": [
+                    "Daily Emotions"
+                ],
+                "operationId": "2258bd24b696e1618e946ea5ceafe1a7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "mood"
+                                ],
+                                "properties": {
+                                    "mood": {
+                                        "type": "enum",
+                                        "format": "email",
+                                        "example": "Angry",
+                                        "enum": [
+                                            "Angry",
+                                            "Sad",
+                                            "Neutral",
+                                            "Happy",
+                                            "Radiant"
+                                        ]
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "format": "notes",
+                                        "example": "your notes here"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Daily emotion stored successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Daily emotion stored successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/sop-categories": {
             "get": {
                 "tags": [
@@ -642,6 +705,10 @@
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Daily Emotions",
+            "description": "Daily Emotions"
         },
         {
             "name": "Sop Categories",
