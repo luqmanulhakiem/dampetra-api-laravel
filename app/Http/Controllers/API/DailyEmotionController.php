@@ -7,7 +7,9 @@ use App\Http\Controllers\API\Docs\DailyEmotionDoc;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DailyEmotionStoreRequest;
 use App\Http\Resources\DailyEmotionResource;
+use App\Models\Couple;
 use App\Models\DailyEmotion;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -39,9 +41,26 @@ class DailyEmotionController extends Controller implements DailyEmotionDoc, HasM
         ], 200);
     }
 
-    public function getPartnerDailyEmotion()
+    public function getPartnerDailyEmotion(Request $request)
     {
-        //
+        $date = $request->query('date');
+        $user = User::findorfail(Auth::user()->id);
+
+        $partnerId = Couple::where('man_id', $user->id)->value('woman_id')
+            ?? Couple::where('woman_id', $user->id)->value('man_id');
+
+        if (!$partnerId) {
+            return response()->json(["message" => "You don't have a partner"], 400);
+        }
+
+        $data = DailyEmotion::where('user_id', $partnerId)
+            ->when($date, fn($q) => $q->whereDate('log_date', $date))
+            ->get();
+
+        return response()->json([
+            "message" => "Success get partner daily emotion",
+            "data" => DailyEmotionResource::collection($data),
+        ], 200);
     }
 
     public function store(DailyEmotionStoreRequest $request)
