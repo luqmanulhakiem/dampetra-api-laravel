@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\API\Docs\DailyEmotionDoc;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DailyEmotionStoreRequest;
@@ -21,9 +22,21 @@ class DailyEmotionController extends Controller implements DailyEmotionDoc, HasM
         ];
     }
 
-    public function getSelfDailyEmotion()
+    public function getSelfDailyEmotion(Request $request)
     {
-        //
+        $user = Auth::user();
+        $date = $request->query('date');
+        $data = DailyEmotion::where('user_id', $user->id)
+            ->when($date, function ($query) use ($date) {
+                return $query->whereDate('log_date', $date);
+            })
+            ->get();
+
+
+        return response()->json([
+            "message" => "Success get self daily emotion",
+            "data" => DailyEmotionResource::collection($data),
+        ], 200);
     }
 
     public function getPartnerDailyEmotion()
@@ -40,11 +53,11 @@ class DailyEmotionController extends Controller implements DailyEmotionDoc, HasM
         $data['user_id'] = $auth->id;
         $data['log_date'] = $now;
 
-        DailyEmotion::create($data);
+        $emotion =   DailyEmotion::create($data);
 
         return response()->json([
             "message" => "Success store daily emotion",
-            "data" => new DailyEmotionResource($data)
+            "data" => new DailyEmotionResource($emotion)
         ], 200);
     }
 }

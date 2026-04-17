@@ -28,9 +28,6 @@ interface UserDoc
                                 new OA\Property(property: "gender", type: "string", example: "male"),
                                 new OA\Property(property: "unixId", type: "string", example: "DTU-000001"),
                                 new OA\Property(property: "hasPartner", type: "bool", example: false),
-
-
-
                             ],
                         )
                     ]

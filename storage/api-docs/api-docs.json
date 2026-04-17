@@ -518,6 +518,68 @@
                 }
             }
         },
+        "/api/v1/daily-emotion/me": {
+            "get": {
+                "tags": [
+                    "Daily Emotions"
+                ],
+                "operationId": "6d607f8aef8b36b1643e43133c895026",
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Date of the daily emotion log (format: yyyy-mm-dd)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-01-01"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get self daily emotion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success get self daily emotion"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "mood": {
+                                                    "type": "string",
+                                                    "example": "Neutral"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "here is your notes"
+                                                },
+                                                "logDate": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "yyyy-MM-dd"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/daily-emotion": {
             "post": {
                 "tags": [

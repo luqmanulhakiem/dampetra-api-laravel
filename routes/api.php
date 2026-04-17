@@ -47,6 +47,7 @@ Route::prefix('v1')->group(function () {
             // Daily Emotion Controller
             Route::controller(DailyEmotionController::class)->group(function () {
                 Route::post("/daily-emotion", "store");
+                Route::get("/daily-emotion/me", "getSelfDailyEmotion");
             });
         });
     });

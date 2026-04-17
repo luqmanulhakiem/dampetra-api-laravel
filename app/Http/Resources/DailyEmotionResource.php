@@ -14,10 +14,15 @@ class DailyEmotionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // return [
+        //     "mood"    => $this['mood'],
+        //     "notes"   => $this['notes'],
+        //     "logDate" => $this['log_date'],
+        // ];
         return [
-            "mood"    => $this['mood'],
-            "notes"   => $this['notes'],
-            "logDate" => $this['log_date'],
+            "mood"    => $this->mood,
+            "notes"   => $this->notes,
+            "logDate" => $this->log_date,
         ];
     }
 }
