@@ -48,6 +48,12 @@ class DailyEmotionController extends Controller implements DailyEmotionDoc, HasM
     {
         $auth = Auth::user();
         $data = $request->validated();
+        $dataExist = DailyEmotion::where('user_id', $auth->id)
+            ->whereDate('log_date', Carbon::today())
+            ->exists();
+        if ($dataExist) {
+            return response()->json(["message" => "You have already logged your daily emotion today"], 400);
+        }
         $now = Carbon::now();
         $now->format('yyyy-mm-dd hh:mm:ss');
         $data['user_id'] = $auth->id;
