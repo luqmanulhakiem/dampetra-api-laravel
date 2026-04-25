@@ -81,13 +81,12 @@ class CouplesController extends Controller implements CouplesDoc, HasMiddleware
             ], 422);
         }
 
-        // $partnerHasCouple = Couple::where('man_id', $partner->id)->value('woman_id')
-        //     ?? Couple::where('woman_id', $partner->id)->value('man_id');
-        // if ($partnerHasCouple) {
-        //     return response()->json([
-        //         "message" => "User Already Have Partner"
-        //     ], 400);
-        // }
+        $partnerHasCouple = Couple::where('man_id', $partner->id)->orWhere('woman_id', $partner->id)->first();
+        if ($partnerHasCouple) {
+            return response()->json([
+                "message" => "User Already Have Partner"
+            ], 400);
+        }
 
         CoupleRequest::create([
             "requested_id" => $user->id,
@@ -113,6 +112,14 @@ class CouplesController extends Controller implements CouplesDoc, HasMiddleware
         if (!$isApproved) {
             return response()->json(['message' => "success reject invitation"], 200);
         }
+        Couple::create([
+            'man_id' => $auth->gender == "male" ? $auth->id : $coupleReq->requested_id,
+            'woman_id' =>  $auth->gender == "female" ? $auth->id : $coupleReq->requested_id,
+        ]);
+        $authUser = User::findorfail($auth->id);
+        $partner = User::findorfail($coupleReq->requested_id);
+        $authUser->update(['has_partner' => true]);
+        $partner->update(['has_partner' => true]);
         return response()->json(['message' => "success accepted invitation"], 200);
     }
 
