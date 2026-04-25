@@ -24,8 +24,20 @@ class CouplesController extends Controller implements CouplesDoc, HasMiddleware
 
     public function getCoupleRequestsStatus()
     {
-        //
+        $authUser = Auth::user();
+        $coupleReq = CoupleRequest::where("requested_id", $authUser->id)->orWhere("invited_id", $authUser->id)->first();
+        if (! $coupleReq) return response()->json(['message' => "Still flying solo? Invite your partner and get connected now!"], 200);
+        $inviter = User::where('id', $coupleReq->requested_id)->first();
+
+        if ($coupleReq->requested_id == $authUser->id) {
+            return response()->json(["message" => "Your request is pending. Waiting for your partner to say yes!"], 200);
+        }
+        if ($coupleReq->invited_id == $authUser->id) {
+            return response()->json(["message" => "$inviter->name invited you to connect! Will you accept or decline?"], 200);
+        }
+        return response()->json(["message" => "You're all set! You are now connected with $inviter->name."], 200);
     }
+
     public function inviteCouple(CoupleInviteRequest $request)
     {
         $data = $request->validated();

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CouplesController;
 use App\Http\Controllers\API\DailyEmotionController;
 use App\Http\Controllers\API\SopCategoryController;
 use App\Http\Controllers\API\UserController;
@@ -42,13 +43,22 @@ Route::prefix('v1')->group(function () {
                 Route::get("/sop-categories", "index");
             });
             // Users
-            Route::get("/users/me", [UserController::class, 'index']);
+            Route::controller(UserController::class)->group(function () {
+                Route::get("/users", 'getAllUser');
+                Route::get("/users/me", 'index');
+            });
 
             // Daily Emotion Controller
             Route::controller(DailyEmotionController::class)->group(function () {
                 Route::post("/daily-emotion", "store");
                 Route::get("/daily-emotion/me", "getSelfDailyEmotion");
                 Route::get("/daily-emotion/partner", "getPartnerDailyEmotion");
+            });
+
+            // Couple
+            Route::controller(CouplesController::class)->group(function () {
+                Route::get("couple/request-status", "getCoupleRequestsStatus");
+                // Route::post("couple/invite", "inviteCouple");
             });
         });
     });
