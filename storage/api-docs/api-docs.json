@@ -977,7 +977,7 @@
                                     "category_id"
                                 ],
                                 "properties": {
-                                    "cateogry_id": {
+                                    "category_id": {
                                         "type": "integer",
                                         "example": 1
                                     },
@@ -1001,6 +1001,82 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Sop Couple stored successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/sop-couple/{id}": {
+            "put": {
+                "tags": [
+                    "Sop Couple"
+                ],
+                "operationId": "c920df26dab3f507e2eee723e4a8d9e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of sop couple",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "category_id",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "status": {
+                                        "type": "enum",
+                                        "example": "Active",
+                                        "enum": [
+                                            "Active",
+                                            "Trial",
+                                            "Archived"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Your Sop Description"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sop Couple Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sop Couple Updated successfully"
                                         }
                                     },
                                     "type": "object"
