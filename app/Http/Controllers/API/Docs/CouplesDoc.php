@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Docs;
 
+use App\Http\Requests\Api\CoupleApprovalRequest;
 use App\Http\Requests\API\CoupleInviteRequest;
 use OpenApi\Attributes as OA;
 
@@ -78,7 +79,7 @@ interface CouplesDoc
             ),
         ]
     )]
-    public function acceptCouple();
+    public function acceptCouple(CoupleApprovalRequest $request);
 
     #[OA\Post(
         path: "/api/v1/couple/invite-cancel",
