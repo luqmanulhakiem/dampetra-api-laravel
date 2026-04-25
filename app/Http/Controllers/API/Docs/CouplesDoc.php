@@ -26,6 +26,31 @@ interface CouplesDoc
         ]
     )]
     public function getCoupleRequestsStatus();
+    #[OA\Post(
+        path: "/api/v1/couple/invite",
+        security: [["bearerAuth" => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["partner_unix_id"],
+                properties: [
+                    new OA\Property(property: "partner_unix_id", type: "string", example: "DTU-0000002"),
+                ]
+            )
+        ),
+        tags: ["Couples"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Invite Your Couple",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Succes Invite Your Partner"),
+                    ]
+                )
+            ),
+        ]
+    )]
     public function inviteCouple(CoupleInviteRequest $request);
     public function acceptCouple();
 }

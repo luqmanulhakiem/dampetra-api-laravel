@@ -44,25 +44,32 @@ class CouplesController extends Controller implements CouplesDoc, HasMiddleware
         $partner = User::where('unix_id', $data['partner_unix_id'])->first();
         $user = Auth::user();
 
-        if ($user->preference === 'opposite' && $user->gender == $partner->gender) {
-            return response()->json([
-                "message" => "This user does not match your gender preferences."
-            ], 422);
-        }
-
-        if (!$partner) {
+        if (! $partner) {
             return response()->json([
                 "message" => "Partner Not Found"
             ], 404);
         }
 
-        $partnerHasCouple = Couple::where('man_id', $partner->id)->value('woman_id')
-            ?? Couple::where('woman_id', $partner->id)->value('man_id');
-        if ($partnerHasCouple) {
+        if ($user->gender == $partner->gender) {
             return response()->json([
-                "message" => "User Already Have Partner"
-            ], 400);
+                "message" => "This user does not match your gender preferences."
+            ], 422);
         }
+
+        $coupleReq = CoupleRequest::where("requested_id", $user->id)->orWhere("invited_id", $user->id)->first();
+        if ($coupleReq) {
+            return response()->json([
+                "message" => "You already send invitation, please cancel it first to make a new one."
+            ], 422);
+        }
+
+        // $partnerHasCouple = Couple::where('man_id', $partner->id)->value('woman_id')
+        //     ?? Couple::where('woman_id', $partner->id)->value('man_id');
+        // if ($partnerHasCouple) {
+        //     return response()->json([
+        //         "message" => "User Already Have Partner"
+        //     ], 400);
+        // }
 
         CoupleRequest::create([
             "requested_id" => $user->id,

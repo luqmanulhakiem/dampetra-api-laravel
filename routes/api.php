@@ -58,7 +58,7 @@ Route::prefix('v1')->group(function () {
             // Couple
             Route::controller(CouplesController::class)->group(function () {
                 Route::get("couple/request-status", "getCoupleRequestsStatus");
-                // Route::post("couple/invite", "inviteCouple");
+                Route::post("couple/invite", "inviteCouple");
             });
         });
     });

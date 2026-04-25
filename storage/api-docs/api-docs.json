@@ -534,7 +534,57 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Success get data user"
+                                            "example": "Still flying solo? Invite your partner and get connected now!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/couple/invite": {
+            "post": {
+                "tags": [
+                    "Couples"
+                ],
+                "operationId": "8f1dfe44b0d47a93b695abb66abeff2d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "partner_unix_id"
+                                ],
+                                "properties": {
+                                    "partner_unix_id": {
+                                        "type": "string",
+                                        "example": "DTU-0000002"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invite Your Couple",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Succes Invite Your Partner"
                                         }
                                     },
                                     "type": "object"
