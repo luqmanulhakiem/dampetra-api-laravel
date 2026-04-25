@@ -16,7 +16,7 @@ class SopCouple extends Model
      */
     function category(): HasOne
     {
-        return $this->hasOne(SopCategory::class, 'category_id', 'id');
+        return $this->hasOne(SopCategory::class, 'id', 'category_id');
     }
 
     /**

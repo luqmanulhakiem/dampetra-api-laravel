@@ -67,6 +67,7 @@ Route::prefix('v1')->group(function () {
             // Couple Sop
             Route::controller(SopCoupleController::class)->group(function () {
                 Route::get("sop-couple", 'getSops');
+                Route::post("sop-couple", 'storeSop');
             });
         });
     });

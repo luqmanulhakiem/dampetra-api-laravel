@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Docs;
 
+use App\Http\Requests\Api\SopCoupleStoreRequest;
 use OpenApi\Attributes as OA;
 
 interface SopCoupleDoc
@@ -36,7 +37,34 @@ interface SopCoupleDoc
     )]
     public function getSops();
 
-    public function storeSop();
+
+    #[OA\Post(
+        path: "/api/v1/sop-couple",
+        security: [["bearerAuth" => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["category_id"],
+                properties: [
+                    new OA\Property(property: "category_id", type: "integer", example: 1),
+                    new OA\Property(property: "description", type: "string", example: "Your Sop Description"),
+                ]
+            )
+        ),
+        tags: ["Sop Couple"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Sop Couple Stored",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Sop Couple stored successfully"),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function storeSop(SopCoupleStoreRequest $request);
 
     public function editSop();
 }
