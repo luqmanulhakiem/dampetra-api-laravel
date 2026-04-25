@@ -84,4 +84,15 @@ class CouplesController extends Controller implements CouplesDoc, HasMiddleware
     {
         //
     }
+
+    public function cancelRequest()
+    {
+        $auth = Auth::user();
+        $coupleReq = CoupleRequest::where("requested_id", $auth->id)->first();
+        if (! $coupleReq) {
+            return response()->json(['message' => "you doesn't have any requested pending"], 200);
+        }
+        $coupleReq->delete();
+        return response()->json(['message' => "success cancel your request"], 200);
+    }
 }

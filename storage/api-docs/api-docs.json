@@ -600,6 +600,87 @@
                 ]
             }
         },
+        "/api/v1/couple/approval": {
+            "post": {
+                "tags": [
+                    "Couples"
+                ],
+                "operationId": "1588588ef74c085148e1853f6e8011ec",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "is_accepted"
+                                ],
+                                "properties": {
+                                    "is_accepted": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Approve Your Partner",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success connected with your partner"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/couple/invite-cancel": {
+            "post": {
+                "tags": [
+                    "Couples"
+                ],
+                "operationId": "21e655c500ab89a7ebd55015e7cc3d30",
+                "responses": {
+                    "200": {
+                        "description": "Cancel Partner Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "success cancel your request"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/daily-emotion/me": {
             "get": {
                 "tags": [

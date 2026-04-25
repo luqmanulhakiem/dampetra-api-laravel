@@ -52,5 +52,49 @@ interface CouplesDoc
         ]
     )]
     public function inviteCouple(CoupleInviteRequest $request);
+
+    #[OA\Post(
+        path: "/api/v1/couple/approval",
+        security: [["bearerAuth" => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["is_accepted"],
+                properties: [
+                    new OA\Property(property: "is_accepted", type: "boolean", example: true),
+                ]
+            )
+        ),
+        tags: ["Couples"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Approve Your Partner",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Success connected with your partner"),
+                    ]
+                )
+            ),
+        ]
+    )]
     public function acceptCouple();
+
+    #[OA\Post(
+        path: "/api/v1/couple/invite-cancel",
+        security: [["bearerAuth" => []]],
+        tags: ["Couples"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Cancel Partner Request",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "success cancel your request"),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function cancelRequest();
 }
