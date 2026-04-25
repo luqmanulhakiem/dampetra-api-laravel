@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CouplesController;
 use App\Http\Controllers\API\DailyEmotionController;
 use App\Http\Controllers\API\SopCategoryController;
+use App\Http\Controllers\API\SopCoupleController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,11 @@ Route::prefix('v1')->group(function () {
                 Route::post("couple/invite", "inviteCouple");
                 Route::post("couple/approval", "acceptCouple");
                 Route::post("couple/invite-cancel", "cancelRequest");
+            });
+
+            // Couple Sop
+            Route::controller(SopCoupleController::class)->group(function () {
+                Route::get("sop-couple", 'getSops');
             });
         });
     });
